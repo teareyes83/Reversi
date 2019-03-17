@@ -6,6 +6,7 @@ namespace Core
 {
     public class Game
     {
+        public const char EmptyCellChar = '.';
         public const char BlackPieceChar = 'B';
         public const char WhitePieceChar = 'W';
         public const char PossibleMoveChar = '0';
@@ -33,6 +34,11 @@ namespace Core
             Initialize(initLinedSquareStrings);
         }
 
+        public Game(char[,] grid)
+        {
+            this.grid = grid;
+        }
+
         void Initialize(string[] initLinedSquareStrings)
         {
             if (initLinedSquareStrings.Length < 1)
@@ -56,7 +62,7 @@ namespace Core
             }
         }
 
-        public void GeneratePossibleMove(char piece)
+        public char[,] GeneratePossibleMove(char piece)
         {
             var rowLength = grid.GetLength(0);
             var columnLength = grid.GetLength(1);
@@ -73,7 +79,10 @@ namespace Core
                     }
                 }
             }
+
+            return grid;
         }
+
 
         void GeneratePossibleMove(int row, int column, int directionRow, int directionColumn, char disc)
         {
