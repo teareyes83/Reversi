@@ -1,0 +1,73 @@
+﻿using NUnit.Framework;
+using FluentAssert;
+using System;
+namespace Core.Test
+{
+    public class GameTest
+    {
+        [TestCase(@"...
+                    ...
+                    B..", 'B',
+                  @"...
+                    ...
+                    B..")]
+        [TestCase(@"...
+                    .B.
+                    B..", 'B',
+                  @"...
+                    .B.
+                    B..")]
+        [TestCase(@"...
+                    .W.
+                    B..", 'B',
+                  @"..0
+                    .W.
+                    B..")]
+        [TestCase(@"...
+                    .W.
+                    BBB", 'B',
+                  @"000
+                    .W.
+                    BBB")]
+        [TestCase(@"...B
+                    ..W.
+                    .W..
+                    B...", 'B',
+                  @"...B
+                    ..W.
+                    .W..
+                    B...")]
+        [TestCase(@"....
+                    ..W.
+                    .W..
+                    B...", 'B',
+                  @"...0
+                    ..W.
+                    .W..
+                    B...")]
+        [TestCase(@"........
+                    ........
+                    ........
+                    ...BW...
+                    ...WB...
+                    ........
+                    ........
+                    ........", 'B',
+                  @"........
+                    ........
+                    ....0...
+                    ...BW0..
+                    ..0WB...
+                    ...0....
+                    ........
+                    ........")]
+        public void TestInputToOutput(string input, char piece, string ouput)
+        {
+            var game = new Game(input);
+            game.GeneratePossibleMove(piece);
+            var result = game.ToString().ToLinedString();
+            var expected = ouput.ToLinedString();
+            result.ShouldBeEqualTo(expected);
+        }
+    }
+}
